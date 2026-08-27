@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Template Form View -->
+    <record id="product_template_form_view_inherit_subscription" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.subscription</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="inside">
+                <span class="d-inline-block">
+                    <field name="is_subscription_product"/>
+                    <label for="is_subscription_product"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Sale Order Form View -->
+    <record id="sale_order_form_view_inherit_subscription" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.subscription</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="subscription_state" widget="statusbar" statusbar_visible="trial,active,past_due" invisible="not is_subscription"/>
+            </xpath>
+            <xpath expr="//group[@name='sale_header']" position="after">
+                <group name="subscription_info" string="Subscription Details" invisible="not is_subscription">
+                    <field name="is_subscription" invisible="1"/>
+                    <field name="trial_start_date"/>
+                    <field name="trial_end_date"/>
+                    <field name="next_invoice_date"/>
+                    <field name="recurring_interval"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Subscription Tree View -->
+    <record id="view_sale_order_subscription_tree" model="ir.ui.view">
+        <field name="name">sale.order.subscription.tree</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Subscriptions" decoration-info="subscription_state == 'trial'" decoration-success="subscription_state == 'active'" decoration-danger="subscription_state == 'past_due'">
+                <field name="name" string="Order Number"/>
+                <field name="partner_id"/>
+                <field name="subscription_state" widget="badge"/>
+                <field name="trial_end_date"/>
+                <field name="next_invoice_date"/>
+                <field name="amount_total" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for Subscriptions Menu -->
+    <record id="action_subscriptions" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_subscription', '=', True)]</field>
+        <field name="context">{'default_is_subscription': True}</field>
+        <field name="view_id" ref="view_sale_order_subscription_tree"/>
+    </record>
+
+    <!-- Subscriptions Menu -->
+    <menuitem id="menu_subscriptions_root"
+              name="Subscriptions"
+              parent="sale.sale_menu_root"
+              sequence="15"/>
+
+    <menuitem id="menu_subscriptions"
+              name="All Subscriptions"
+              parent="menu_subscriptions_root"
+              action="action_subscriptions"
+              sequence="1"/>
+</odoo>
