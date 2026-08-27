@@ -1,13 +1,11 @@
 {
     'name': 'Vast Subscriptions',
-    'version': '19.0.1.0.0',
-    'summary': 'Automated Recurring Billing and Subscription Engine with SaaS Paywall',
+    'version': '19.0.2.0.0',
+    'summary': 'Automated Recurring Billing, SaaS Paywall & 14-Day Trial',
     'description': """
-Vast Subscriptions
-==================
-A custom module that provides a streamlined, fully automated recurring 
-billing and subscription engine with a 14-day free trial, proactive 3-day 
-warnings, and a hard SaaS paywall.
+Vast Subscriptions (v2)
+=======================
+Advanced SaaS paywall with automated billing, 3-day proactive renewal warnings (Web and POS), and hard paywall lockouts for past-due accounts.
     """,
     'category': 'Sales/Subscriptions',
     'author': 'Antigravity',
@@ -20,11 +18,11 @@ warnings, and a hard SaaS paywall.
     ],
     'assets': {
         'web.assets_backend': [
-            'Odoo_Custom_Subscription/static/src/js/warning_banner.js',
-            'Odoo_Custom_Subscription/static/src/xml/warning_banner.xml',
+            'vast_subscriptions/static/src/js/warning_banner.js',
+            'vast_subscriptions/static/src/xml/warning_banner.xml',
         ],
         'point_of_sale._assets_pos': [
-            'Odoo_Custom_Subscription/static/src/js/pos_warning.js',
+            'vast_subscriptions/static/src/js/pos_warning.js',
         ],
     },
     'installable': True,

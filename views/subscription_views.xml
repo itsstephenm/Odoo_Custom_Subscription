@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Product Template Form View -->
     <record id="product_template_form_view_inherit_subscription" model="ir.ui.view">
         <field name="name">product.template.form.inherit.subscription</field>
         <field name="model">product.template</field>
@@ -15,7 +14,6 @@
         </field>
     </record>
 
-    <!-- Sale Order Form View -->
     <record id="sale_order_form_view_inherit_subscription" model="ir.ui.view">
         <field name="name">sale.order.form.inherit.subscription</field>
         <field name="model">sale.order</field>
@@ -36,8 +34,7 @@
         </field>
     </record>
 
-    <!-- Subscription List View (Replaced 'tree' with 'list') -->
-    <record id="view_sale_order_subscription_tree" model="ir.ui.view">
+    <record id="view_sale_order_subscription_list" model="ir.ui.view">
         <field name="name">sale.order.subscription.list</field>
         <field name="model">sale.order</field>
         <field name="arch" type="xml">
@@ -52,7 +49,6 @@
         </field>
     </record>
 
-    <!-- Action for Subscriptions Menu (Updated view_mode to list,form) -->
     <record id="action_subscriptions" model="ir.actions.act_window">
         <field name="name">Subscriptions</field>
         <field name="type">ir.actions.act_window</field>
@@ -60,18 +56,9 @@
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_subscription', '=', True)]</field>
         <field name="context">{'default_is_subscription': True}</field>
-        <field name="view_id" ref="view_sale_order_subscription_tree"/>
+        <field name="view_id" ref="view_sale_order_subscription_list"/>
     </record>
 
-    <!-- Subscriptions Menu -->
-    <menuitem id="menu_subscriptions_root"
-              name="Subscriptions"
-              parent="sale.sale_menu_root"
-              sequence="15"/>
-
-    <menuitem id="menu_subscriptions"
-              name="All Subscriptions"
-              parent="menu_subscriptions_root"
-              action="action_subscriptions"
-              sequence="1"/>
+    <menuitem id="menu_subscriptions_root" name="Subscriptions" parent="sale.sale_menu_root" sequence="15"/>
+    <menuitem id="menu_subscriptions" name="All Subscriptions" parent="menu_subscriptions_root" action="action_subscriptions" sequence="1"/>
 </odoo>
