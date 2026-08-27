@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-# No new models are introduced. Standard sale models inherit existing access rights.
+access_sale_order_subscription,sale.order.subscription,sale.model_sale_order,sales_team.group_sale_salesman,1,1,1,1
+access_product_template_subscription,product.template.subscription,product.model_product_template,sales_team.group_sale_salesman,1,1,1,1
