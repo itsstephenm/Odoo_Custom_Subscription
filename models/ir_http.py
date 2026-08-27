@@ -35,7 +35,7 @@ class IrHttp(models.AbstractModel):
             sub = self.env['sale.order'].sudo().search([
                 ('partner_id', 'child_of', partner.id),
                 ('is_subscription', '=', True),
-                ('subscription_state', '=', 'active')
+                ('subscription_state', 'in', ['active', 'trial'])
             ], limit=1, order='next_invoice_date asc')
             
             if sub and sub.next_invoice_date:
