@@ -4,4 +4,4 @@ from odoo.http import request
 class SubscriptionPaywall(http.Controller):
     @http.route('/subscription/suspended', type='http', auth='user', website=True)
     def subscription_suspended(self, **kwargs):
-        return request.render('vast_subscriptions.paywall_page', {})
+        return request.render('Odoo_Custom_Subscription.paywall_page', {})

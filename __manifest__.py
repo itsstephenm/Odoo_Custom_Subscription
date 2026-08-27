@@ -18,11 +18,11 @@ Advanced SaaS paywall with automated billing, 3-day proactive renewal warnings (
     ],
     'assets': {
         'web.assets_backend': [
-            'vast_subscriptions/static/src/js/warning_banner.js',
-            'vast_subscriptions/static/src/xml/warning_banner.xml',
+            'Odoo_Custom_Subscription/static/src/js/warning_banner.js',
+            'Odoo_Custom_Subscription/static/src/xml/warning_banner.xml',
         ],
         'point_of_sale._assets_pos': [
-            'vast_subscriptions/static/src/js/pos_warning.js',
+            'Odoo_Custom_Subscription/static/src/js/pos_warning.js',
         ],
     },
     'installable': True,
