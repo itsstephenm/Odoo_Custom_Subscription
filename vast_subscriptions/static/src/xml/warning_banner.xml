@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="vast_subscriptions.WarningBanner" owl="1">
+        <div t-if="showWarning" class="alert alert-warning alert-dismissible fade show m-0 text-center" role="alert" style="position: absolute; top: 0; left: 0; right: 0; z-index: 9999; border-radius: 0;">
+            <strong>Action Required:</strong> Your subscription renews in <t t-esc="days"/> days. Please ensure your payment methods are up to date.
+            <button type="button" class="btn-close" aria-label="Close" t-on-click="dismiss"></button>
+        </div>
+    </t>
+</templates>

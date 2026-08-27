@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="paywall_page" name="Account Suspended">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <title>Account Suspended</title>
+                <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+            </t>
+            <div class="container text-center" style="margin-top: 100px;">
+                <h1 class="text-danger mb-4">Account Suspended</h1>
+                <p class="lead">Your subscription is currently past due.</p>
+                <p class="mb-4">Please update your payment information and settle outstanding invoices to restore your access to the system.</p>
+                <a href="/my/invoices" class="btn btn-primary btn-lg">Pay Outstanding Balance</a>
+            </div>
+        </t>
+    </template>
+</odoo>
