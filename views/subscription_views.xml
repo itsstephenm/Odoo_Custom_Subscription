@@ -36,28 +36,28 @@
         </field>
     </record>
 
-    <!-- Subscription Tree View -->
+    <!-- Subscription List View (Replaced 'tree' with 'list') -->
     <record id="view_sale_order_subscription_tree" model="ir.ui.view">
-        <field name="name">sale.order.subscription.tree</field>
+        <field name="name">sale.order.subscription.list</field>
         <field name="model">sale.order</field>
         <field name="arch" type="xml">
-            <tree string="Subscriptions" decoration-info="subscription_state == 'trial'" decoration-success="subscription_state == 'active'" decoration-danger="subscription_state == 'past_due'">
+            <list string="Subscriptions" decoration-info="subscription_state == 'trial'" decoration-success="subscription_state == 'active'" decoration-danger="subscription_state == 'past_due'">
                 <field name="name" string="Order Number"/>
                 <field name="partner_id"/>
                 <field name="subscription_state" widget="badge"/>
                 <field name="trial_end_date"/>
                 <field name="next_invoice_date"/>
                 <field name="amount_total" sum="Total"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Action for Subscriptions Menu -->
+    <!-- Action for Subscriptions Menu (Updated view_mode to list,form) -->
     <record id="action_subscriptions" model="ir.actions.act_window">
         <field name="name">Subscriptions</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[('is_subscription', '=', True)]</field>
         <field name="context">{'default_is_subscription': True}</field>
         <field name="view_id" ref="view_sale_order_subscription_tree"/>
