@@ -30,7 +30,8 @@ class IrHttp(models.AbstractModel):
         result = super(IrHttp, self).session_info()
         user = self.env.user
         
-        if user and user.id not in [1, 2]:
+        # Updated to != 1 so Administrator (ID 2) can see the banner during testing
+        if user and user.id != 1: 
             partner = user.partner_id.commercial_partner_id
             sub = self.env['sale.order'].sudo().search([
                 ('partner_id', 'child_of', partner.id),
