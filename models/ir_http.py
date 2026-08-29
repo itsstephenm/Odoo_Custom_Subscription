@@ -13,7 +13,8 @@ class IrHttp(models.AbstractModel):
                 env = request.env
                 user = env.user
                 
-                if user and user.id not in [1, 2] and not user.has_group('base.group_erp_manager'):
+                # STRICT LOCKOUT: Only System (1) and Vast-Solutions Tech Admin (2) are immune
+                if user and user.id not in [1, 2]:
                     partner = user.partner_id.commercial_partner_id
                     sub = env['sale.order'].sudo().search([
                         ('partner_id', 'child_of', partner.id),
@@ -22,7 +23,8 @@ class IrHttp(models.AbstractModel):
                     ], limit=1, order='id desc')
                     
                     if sub:
-                        return redirect('/subscription/suspended')
+                        # Redirects them directly to the customer portal to pay their invoice
+                        return redirect('/my/invoices')
                         
         return super(IrHttp, cls)._dispatch(endpoint)
 
@@ -30,7 +32,6 @@ class IrHttp(models.AbstractModel):
         result = super(IrHttp, self).session_info()
         user = self.env.user
         
-        # Updated to != 1 so Administrator (ID 2) can see the banner during testing
         if user and user.id != 1: 
             partner = user.partner_id.commercial_partner_id
             sub = self.env['sale.order'].sudo().search([
