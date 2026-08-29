@@ -11,7 +11,7 @@ Advanced SaaS paywall with automated billing, 3-day proactive renewal warnings (
     'author': 'Antigravity',
     'depends': ['sale_management', 'account', 'point_of_sale', 'web'],
     'data': [
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',  <-- Commented out to prevent the crash
         'data/cron.xml',
         'views/subscription_views.xml',
         'views/paywall_templates.xml',
