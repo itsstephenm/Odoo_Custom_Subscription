@@ -3,13 +3,13 @@
 import { patch } from "@web/core/utils/patch";
 import { PosStore } from "@point_of_sale/app/services/pos_store";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { session } from "@web/session";
 
 patch(PosStore.prototype, {
     async setup() {
         await super.setup(...arguments);
 
-        const session = this.env.services.session;
-        if (session && session.vast_sub_warning && !window.sessionStorage.getItem('vast_sub_warned_pos')) {
+        if (session.vast_sub_warning && !window.sessionStorage.getItem('vast_sub_warned_pos')) {
             window.sessionStorage.setItem('vast_sub_warned_pos', 'true');
 
             // Show popup gracefully after standard initialization
