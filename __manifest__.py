@@ -1,9 +1,9 @@
 {
-    'name': 'Vast Subscriptions',
+    'name': 'Odoo Custom Subscription',
     'version': '19.0.2.0.0',
     'summary': 'Automated Recurring Billing, SaaS Paywall & 14-Day Trial',
     'description': """
-Vast Subscriptions (v2)
+Odoo Custom Subscription (v2)
 =======================
 Advanced SaaS paywall with automated billing, 3-day proactive renewal warnings (Web and POS), and hard paywall lockouts for past-due accounts.
     """,
