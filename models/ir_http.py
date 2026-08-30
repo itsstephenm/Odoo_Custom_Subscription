@@ -9,7 +9,9 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls, endpoint):
         if hasattr(request, 'httprequest') and request.httprequest:
             path = request.httprequest.path
-            if path.startswith('/web') and not path.startswith('/web/login') and not path.startswith('/web/session'):
+            
+            # Catch both /web and /odoo backend entrypoints, while letting login and portal pass through
+            if (path.startswith('/web') or path.startswith('/odoo')) and not path.startswith('/web/login') and not path.startswith('/web/session'):
                 env = request.env
                 user = env.user
                 
@@ -23,7 +25,6 @@ class IrHttp(models.AbstractModel):
                     ], limit=1, order='id desc')
                     
                     if sub:
-                        # Redirects them directly to the customer portal to pay their invoice
                         return redirect('/my/invoices')
                         
         return super(IrHttp, cls)._dispatch(endpoint)
