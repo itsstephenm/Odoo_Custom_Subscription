@@ -17,13 +17,21 @@ class IrHttp(models.AbstractModel):
             
             is_html = 'text/html' in accept_header
             is_backend = path.startswith('/web') or path.startswith('/odoo') or 'action' in path
-            is_exempt = '/web/login' in path or '/web/session' in path or '/my/' in path
+            
+            # ADDED: Exemptions for static assets, styles, and images so the portal looks correct!
+            is_exempt = (
+                path.startswith('/web/login') or 
+                path.startswith('/web/session') or 
+                path.startswith('/web/assets') or 
+                path.startswith('/web/static') or 
+                path.startswith('/web/image') or 
+                path.startswith('/web/content') or 
+                '/my/' in path
+            )
             
             if is_backend and not is_exempt:
                 uid = request.session.uid
                 
-                # CHANGED: Only immune the absolute root System user (ID 1)
-                # If your Vast-Solutions admin needs immunity later, we will use security groups instead of hardcoded IDs.
                 if uid and uid != 1:
                     user = request.env['res.users'].sudo().browse(uid)
                     partner = user.partner_id.commercial_partner_id
@@ -34,7 +42,7 @@ class IrHttp(models.AbstractModel):
                     ], limit=1)
                     
                     if sub:
-                        _logger.info(f"LOCKOUT TRIGGERED for User ID {uid} - Redirecting or Raising AccessError")
+                        _logger.info(f"LOCKOUT TRIGGERED for User ID {uid} on path {path}")
                         if is_html:
                             return redirect('/my/invoices')
                         else:
@@ -43,7 +51,6 @@ class IrHttp(models.AbstractModel):
         return super(IrHttp, cls)._dispatch(endpoint)
 
     def session_info(self):
-        # ... (keep your existing session_info method exactly as it is) ...
         result = super(IrHttp, self).session_info()
         user = self.env.user
         
