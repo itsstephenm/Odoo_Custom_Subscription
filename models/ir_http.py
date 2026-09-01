@@ -16,12 +16,10 @@ class IrHttp(models.AbstractModel):
             accept_header = request.httprequest.headers.get('Accept', '')
             
             is_html = 'text/html' in accept_header
-            is_backend = path.startswith('/web') or path.startswith('/odoo') or 'action' in path
             
-            # If the user is anywhere in the portal (/my/), allow all background calls/checkouts freely!
-            if '/my/' in path:
-                return super(IrHttp, cls)._dispatch(endpoint)
-                
+            # Strictly target backend workspace routes (like /odoo/action-...) without trapping portal/dataset calls
+            is_backend = path.startswith('/odoo') or 'action' in path
+            
             is_exempt = (
                 path.startswith('/web/login') or 
                 path.startswith('/web/session') or 
@@ -31,7 +29,8 @@ class IrHttp(models.AbstractModel):
                 path.startswith('/web/content') or 
                 path.startswith('/web/bundle') or 
                 path.startswith('/website/translations') or 
-                '/payment' in path
+                path.startswith('/payment') or 
+                path.startswith('/my')
             )
             
             if is_backend and not is_exempt:
