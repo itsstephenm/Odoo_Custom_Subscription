@@ -9,12 +9,13 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls, endpoint):
         if hasattr(request, 'httprequest') and request.httprequest:
             path = request.httprequest.path
+            accept_header = request.httprequest.headers.get('Accept', '')
             
-            # Skip JSON-RPC, AJAX, assets, login, and portal routes to prevent breaking background requests
-            is_json_rpc = '/web/dataset' in path or '/web/proxy' in path or request.httprequest.content_type == 'application/json'
-            is_ajax = request.httprequest.headers.get('X-Requested-With') == 'XMLHttpRequest'
+            # Only intercept full browser page navigations requesting HTML (prevents breaking AJAX/actions/assets)
+            is_html_navigation = 'text/html' in accept_header
+            is_excluded = path.startswith('/web/login') or path.startswith('/web/session') or '/my/' in path
             
-            if (path.startswith('/web') or path.startswith('/odoo')) and not path.startswith('/web/login') and not path.startswith('/web/session') and not is_json_rpc and not is_ajax:
+            if (path.startswith('/web') or path.startswith('/odoo')) and not is_excluded and is_html_navigation:
                 env = request.env
                 user = env.user
                 
