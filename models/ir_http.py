@@ -18,7 +18,10 @@ class IrHttp(models.AbstractModel):
             is_html = 'text/html' in accept_header
             is_backend = path.startswith('/web') or path.startswith('/odoo') or 'action' in path
             
-            # Updated: Use '/payment' in path to catch all transaction and gateway routes securely
+            # If the user is anywhere in the portal (/my/), allow all background calls/checkouts freely!
+            if '/my/' in path:
+                return super(IrHttp, cls)._dispatch(endpoint)
+                
             is_exempt = (
                 path.startswith('/web/login') or 
                 path.startswith('/web/session') or 
@@ -28,8 +31,7 @@ class IrHttp(models.AbstractModel):
                 path.startswith('/web/content') or 
                 path.startswith('/web/bundle') or 
                 path.startswith('/website/translations') or 
-                '/payment' in path or 
-                '/my/' in path
+                '/payment' in path
             )
             
             if is_backend and not is_exempt:
