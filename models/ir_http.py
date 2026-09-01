@@ -18,6 +18,7 @@ class IrHttp(models.AbstractModel):
             is_html = 'text/html' in accept_header
             is_backend = path.startswith('/web') or path.startswith('/odoo') or 'action' in path
             
+            # Exempt bundles, translations, assets, payment routes, and portal paths
             is_exempt = (
                 path.startswith('/web/login') or 
                 path.startswith('/web/session') or 
@@ -25,6 +26,8 @@ class IrHttp(models.AbstractModel):
                 path.startswith('/web/static') or 
                 path.startswith('/web/image') or 
                 path.startswith('/web/content') or 
+                path.startswith('/web/bundle') or 
+                path.startswith('/website/translations') or 
                 path.startswith('/payment/') or 
                 '/my/' in path
             )
