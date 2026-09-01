@@ -17,23 +17,10 @@ class IrHttp(models.AbstractModel):
             
             is_html = 'text/html' in accept_header
             
-            # Strictly target backend workspace routes (like /odoo/action-...) without trapping portal/dataset calls
-            is_backend = path.startswith('/odoo') or 'action' in path
+            # Target ONLY backend workspace entry routes (/odoo or main web client)
+            is_backend_workspace = path.startswith('/odoo') or path == '/web'
             
-            is_exempt = (
-                path.startswith('/web/login') or 
-                path.startswith('/web/session') or 
-                path.startswith('/web/assets') or 
-                path.startswith('/web/static') or 
-                path.startswith('/web/image') or 
-                path.startswith('/web/content') or 
-                path.startswith('/web/bundle') or 
-                path.startswith('/website/translations') or 
-                path.startswith('/payment') or 
-                path.startswith('/my')
-            )
-            
-            if is_backend and not is_exempt:
+            if is_backend_workspace:
                 uid = request.session.uid
                 
                 if uid and uid != 1:
@@ -46,7 +33,7 @@ class IrHttp(models.AbstractModel):
                     ], limit=1)
                     
                     if sub:
-                        _logger.info(f"LOCKOUT TRIGGERED for User ID {uid} on path {path}")
+                        _logger.info(f"LOCKOUT TRIGGERED for User ID {uid} on backend path {path}")
                         if is_html:
                             return redirect('/my/invoices')
                         else:
