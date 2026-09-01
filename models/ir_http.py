@@ -11,11 +11,12 @@ class IrHttp(models.AbstractModel):
             path = request.httprequest.path
             accept_header = request.httprequest.headers.get('Accept', '')
             
-            # Only intercept full browser page navigations requesting HTML (prevents breaking AJAX/actions/assets)
-            is_html_navigation = 'text/html' in accept_header
-            is_excluded = path.startswith('/web/login') or path.startswith('/web/session') or '/my/' in path
+            # Catch HTML navigations across all backend routes (/web, /odoo, /action)
+            is_html = 'text/html' in accept_header
+            is_backend = path.startswith('/web') or path.startswith('/odoo') or 'action' in path
+            is_exempt = '/web/login' in path or '/web/session' in path or '/my/' in path
             
-            if (path.startswith('/web') or path.startswith('/odoo')) and not is_excluded and is_html_navigation:
+            if is_backend and not is_exempt and is_html:
                 env = request.env
                 user = env.user
                 
