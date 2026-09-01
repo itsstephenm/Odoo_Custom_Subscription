@@ -10,8 +10,11 @@ class IrHttp(models.AbstractModel):
         if hasattr(request, 'httprequest') and request.httprequest:
             path = request.httprequest.path
             
-            # Catch both /web and /odoo backend entrypoints, while letting login and portal pass through
-            if (path.startswith('/web') or path.startswith('/odoo')) and not path.startswith('/web/login') and not path.startswith('/web/session'):
+            # Skip JSON-RPC, AJAX, assets, login, and portal routes to prevent breaking background requests
+            is_json_rpc = '/web/dataset' in path or '/web/proxy' in path or request.httprequest.content_type == 'application/json'
+            is_ajax = request.httprequest.headers.get('X-Requested-With') == 'XMLHttpRequest'
+            
+            if (path.startswith('/web') or path.startswith('/odoo')) and not path.startswith('/web/login') and not path.startswith('/web/session') and not is_json_rpc and not is_ajax:
                 env = request.env
                 user = env.user
                 
