@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="Odoo_Custom_Subscription.WarningBanner" owl="1">
-        <div t-if="showWarning" class="alert alert-warning alert-dismissible fade show m-0 text-center" role="alert" style="position: absolute; top: 0; left: 0; right: 0; z-index: 9999; border-radius: 0;">
-            <strong>Action Required:</strong> Your subscription renews in <t t-esc="days"/> days. Please ensure your payment methods are up to date.
-            <button type="button" class="btn-close" aria-label="Close" t-on-click="dismiss"></button>
-        </div>
+    <t t-name="Odoo_Custom_Subscription.WarningBanner">
+        <t t-if="state.showWarning">
+            <div class="alert alert-warning text-center mb-0" 
+                 style="position: fixed; top: 0; left: 0; width: 100%; z-index: 99999; border-radius: 0; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <span>⚠️ Notice: Your subscription is due in <t t-esc="state.days"/> day(s). Please settle your invoice to avoid service interruption.</span>
+                <button type="button" class="btn-close position-absolute end-0 top-50 translate-middle-y me-3" 
+                        t-on-click="dismiss" aria-label="Close"></button>
+            </div>
+        </t>
     </t>
 </templates>
