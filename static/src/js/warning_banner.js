@@ -10,7 +10,11 @@ export class VastSubWarningBanner extends Component {
         this.days = 0;
 
         onMounted(() => {
-            if (session.vast_sub_warning && !window.sessionStorage.getItem('vast_sub_warned')) {
+            const path = window.location.pathname;
+            const isLogin = path === '/web/login';
+            const isPos = path.includes('/pos/ui');
+            
+            if (session.vast_sub_warning && !isLogin && !isPos && !window.sessionStorage.getItem('vast_sub_warned')) {
                 this.days = session.vast_sub_warning_days;
                 this.showWarning = true;
                 window.sessionStorage.setItem('vast_sub_warned', 'true');
