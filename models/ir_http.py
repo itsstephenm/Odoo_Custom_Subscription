@@ -1,4 +1,4 @@
-from odoo import models, api, fields
+from odoo import models, fields
 from odoo.http import request
 from werkzeug.utils import redirect
 from odoo.exceptions import AccessError
