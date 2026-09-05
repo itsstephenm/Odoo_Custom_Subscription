@@ -9,7 +9,7 @@ Advanced SaaS paywall with automated billing, 3-day proactive renewal warnings (
     """,
     'category': 'Sales/Subscriptions',
     'author': 'Antigravity',
-    'depends': ['sale_management', 'account', 'point_of_sale', 'web'],
+    'depends': ['sale_management', 'account', 'web'],
     'data': [
         # 'security/ir.model.access.csv',  <-- Commented out to prevent the crash
         'data/cron.xml',
